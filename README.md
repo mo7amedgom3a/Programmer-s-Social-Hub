@@ -32,9 +32,13 @@ The system is built using a microservices architecture, allowing each component 
 - **gRPC**: Used for efficient inter-service communication between microservices.
 - **API Gateway**: Managed by **Kong** to secure and manage the APIs.
 
+## Overview Architecture
 
+The architecture of **Programmer's Social Hub** is designed to be scalable, resilient, and efficient, leveraging modern technologies and best practices. Below is a high-level overview of the system architecture:
 
-## Technologies Used
+![Overview Architecture](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/protofolio.drawio.png?raw=true)
+## Detaild Architecture
+- **Security Service**
 
 ### Frontend
 - **Next.js**: React framework for server-side rendering and static site generation.
