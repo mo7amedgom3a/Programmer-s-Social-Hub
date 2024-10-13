@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/mo7amedgom3a/Programmers-Social-Hub.git'
+            }
+        }
+        
+        stage('Build and Test') {
+            steps {
+                script {
+                    sh 'dotnet restore'
+                    sh 'dotnet build --configuration Release'
+                    sh 'dotnet test'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t mohamedgomaa77/security-service .'
+                }
+            }
+        }
+        
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    sh 'docker login -u mohamedgomaa77 -p $DOCKER_PASSWORD'
+                    sh 'docker push mohamedgomaa77/security-service:latest'
+                }
+            }
+        }
+        
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh 'kubectl apply -f k8s/security-deployment.yaml'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

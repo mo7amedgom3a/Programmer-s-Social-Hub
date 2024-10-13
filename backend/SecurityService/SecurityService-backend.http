@@ -1,0 +1,6 @@
+@SecurityService_backend_HostAddress = http://localhost:5217
+
+GET {{SecurityService_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
