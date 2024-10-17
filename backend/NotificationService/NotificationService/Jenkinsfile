@@ -1,0 +1,90 @@
+pipeline {
+    agent any
+
+    environment {
+        // Environment variables
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        IMAGE_NAME = "your-dockerhub-username/user-management-service"
+        KUBECONFIG_CREDENTIALS = credentials('kubeconfig-credentials')
+        DEPLOYMENT_NAME = "user-management-deployment"
+        NAMESPACE = "default" 
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Application') {
+            steps {
+                // Build the .NET application
+                script {
+                    sh 'dotnet restore'
+                    sh 'dotnet build --configuration Release'
+                    sh 'dotnet publish -c Release -o out'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                // Run tests
+                sh 'dotnet test'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Build Docker image
+                script {
+                    sh """
+                    docker build -t $IMAGE_NAME:${env.BUILD_NUMBER} .
+                    docker tag $IMAGE_NAME:${env.BUILD_NUMBER} $IMAGE_NAME:latest
+                    """
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                // Login to Docker Hub and push the image
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    }
+                    sh "docker push $IMAGE_NAME:${env.BUILD_NUMBER}"
+                    sh "docker push $IMAGE_NAME:latest"
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                // Deploy the new image to Kubernetes
+                script {
+                    withKubeConfig([credentialsId: 'kubeconfig-credentials', serverUrl: 'https://your-kubernetes-server']) {
+                        sh """
+                        kubectl set image deployment/$DEPLOYMENT_NAME user-management-service=$IMAGE_NAME:${env.BUILD_NUMBER} -n $NAMESPACE
+                        kubectl rollout status deployment/$DEPLOYMENT_NAME -n $NAMESPACE
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up Docker images on the Jenkins agent
+            sh 'docker image prune -f'
+        }
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed.'
+        }
+    }
+}
