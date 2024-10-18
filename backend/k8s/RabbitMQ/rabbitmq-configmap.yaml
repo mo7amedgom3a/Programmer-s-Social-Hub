@@ -1,0 +1,11 @@
+# rabbitmq-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+  namespace: default
+data:
+  RABBITMQ_ERLANG_COOKIE: "rabbitmq_cookie"
+  RABBITMQ_DEFAULT_VHOST: "/"
+  RABBITMQ_DEFAULT_USER: "guest"
+  RABBITMQ_DEFAULT_PASS: "guest"
