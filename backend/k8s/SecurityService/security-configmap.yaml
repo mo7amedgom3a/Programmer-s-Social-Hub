@@ -1,0 +1,8 @@
+# security-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: security-config
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  Database_ConnectionString: "Server=mysql-service;Database=securitydb;User=root;Password=2003;"
