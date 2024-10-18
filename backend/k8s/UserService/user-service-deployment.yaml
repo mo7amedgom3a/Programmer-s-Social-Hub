@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-management-service
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-management-service
+  template:
+    metadata:
+      labels:
+        app: user-management-service
+    spec:
+      containers:
+        - name: user-management-service
+          image: ..
+          ports:
+            - containerPort: 80
+          env:
+            - name: USER_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: USER_DB_NAME
+            - name: USER_DB_COLLECTION
+              valueFrom:
+                configMapKeyRef:
+                  name: user-service-config
+                  key: USER_DB_COLLECTION
+            - name: MONGO_CONNECTION_STRING
+              value: "mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@mongo:27017"
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: MONGO_USERNAME
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: MONGO_PASSWORD
+            - name: JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: JWT_PUBLIC_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-management-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: user-management-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
