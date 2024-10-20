@@ -64,12 +64,7 @@ The system is built using a microservices architecture, allowing each component 
 
 The architecture of **Programmer's Social Hub** is designed to be scalable, resilient, and efficient, leveraging modern technologies and best practices. Below is a high-level overview of the system architecture:
 
-![Overview Architecture](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/protofolio.drawio.png?raw=true)
-## Detaild Architecture
-- **Security Service**
-=======
-
-![Overview Architecture](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/protofolio.drawio.png?raw=true)
+![Overview Architecture](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/protofolio.jpg?raw=true)
 ## Detaild Architecture
 ### Security Service
 The Security Service is responsible for authenticating users and ensuring that all interactions on the platform are secure. It uses JSON Web Tokens (JWT) for user authentication and authorization, with asymmetric key pairs to sign and verify tokens.
@@ -121,7 +116,7 @@ The API Gateway uses Kong to manage and secure all incoming API requests. It act
 2) Security and rate-limiting for APIs.
 3) Load balancing and request routing.
 
->>>>>>> 5af992d (update readme file)
+
 
 ### Frontend
 - **Next.js**: React framework for server-side rendering and static site generation.
