@@ -21,7 +21,6 @@ Here are some of the key technologies used in **Programmer's Social Hub**:
 ![Puppet](https://img.shields.io/badge/Puppet-FFAE1A?style=for-the-badge&logo=puppet&logoColor=white)
 
 
-
 ## Table of Contents
 - [Features](#features)
 - [Architecture](#architecture)
@@ -45,7 +44,7 @@ Here are some of the key technologies used in **Programmer's Social Hub**:
 - **User Profiles**: Create and manage developer profiles with features to follow/unfollow other users, showcase skills, and highlight areas of interest.
 - **Posts and Code Sharing**: Share programming tips, tricks, tutorials, errors, and code snippets using a built-in code editor.
 - **Real-time Notifications**: Get real-time updates on comments, reactions, and followers.
-- **Image Uploads**: Support for image uploads with Cloudflare CDN integration.
+- **Image Uploads**: Support for image uploads with cloudinary CDN integration.
 - **Search**: Powerful search functionality with topic and profile suggestions.
 - **Microservices Architecture**: Scalable architecture with independent services for security, user management, posts, notifications, and more.
 
@@ -124,8 +123,23 @@ The API Gateway uses Kong to manage and secure all incoming API requests. It act
 
 ### Backend
 - **.NET**: Backend framework for building the RESTful APIs and microservices.
-- **MongoDB**: Non-relational database for managing unstructured data like posts and comments.
+![.NET Architecture](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/.netArchitecture.png?raw=true)
+- **MongoDB**: Non-relational database for managing unstructured data like posts and comments. The following collections are used:
+
+    - **User Collection**:
+        ![User Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/UserServiceCollections.png?raw=true)
+
+    - **Post Collection**:
+        ![Post Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/PosCollection.png?raw=true)
+
+    - **Comment Collection**:
+        ![Comment Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/CommentCollection.png?raw=true)
+
+    - **Likes Collection**:
+        ![Likes Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/LikesCollection.png?raw=true)
 - **MySQL**: Relational database for handling structured data like user profiles.
+- **Security database**:
+![MySQL Database](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/SecurityServiceDB.png?raw=true)
 
 ### Microservices & Communication
 - **RabbitMQ**: Message broker for handling asynchronous tasks and communication.
@@ -135,6 +149,7 @@ The API Gateway uses Kong to manage and secure all incoming API requests. It act
 - **Kong**: API Gateway for managing and securing APIs.
 
 ### Security
+![auth](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/auth-microservices.jpg?raw=true)
 - **JWT (JSON Web Token)**: For authentication and authorization of users.
 - **Asymmetric Keys**: Uses public/private keys for secure data exchange and JWT signing.
 
