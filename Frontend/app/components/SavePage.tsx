@@ -8,6 +8,7 @@ interface UserMetadata {
   userId: string;
   bio: string;
   username: string;
+  name : string;
   imageUrl: string;
 }
 
