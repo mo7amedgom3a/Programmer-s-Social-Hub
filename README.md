@@ -2,23 +2,29 @@
 
 **Programmer's Social Hub** is a social media platform designed for programmers to share their knowledge, tips, tricks, and code snippets. Users can create and engage with posts, follow other users, comment on discussions, and interact in a vibrant community dedicated to programming and software development.
 
+## Demo
+
+Check out our demo video and presentation slides to get a better understanding of **Programmer's Social Hub**:
+
+- [Demo Video](https://drive.google.com/file/d/1FuTM1H8x74ZXnxv6ltxz8mCKlgBOHlPo/view?usp=drive_link)
+- [Presentation Slides](https://docs.google.com/presentation/d/18LxqoeZ94WPqW7SCQ5xTNJu0yZcw9NrqghdhBc2cz6k/edit?usp=sharing)
+
 
 ## Technology Used
-
-Here are some of the key technologies used in **Programmer's Social Hub**:
-
 ![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=.net&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=white)
 ![gRPC](https://img.shields.io/badge/gRPC-4285F4?style=for-the-badge&logo=grpc&logoColor=white)
 ![Kong](https://img.shields.io/badge/Kong-00ADEF?style=for-the-badge&logo=kong&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![SignalR](https://img.shields.io/badge/SignalR-512BD4?style=for-the-badge&logo=signalr&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
 ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
 ![Puppet](https://img.shields.io/badge/Puppet-FFAE1A?style=for-the-badge&logo=puppet&logoColor=white)
+
 
 
 ## Table of Contents
@@ -127,15 +133,18 @@ The API Gateway uses Kong to manage and secure all incoming API requests. It act
 - **MongoDB**: Non-relational database for managing unstructured data like posts and comments. The following collections are used:
 
     - **User Collection**:
+    
         ![User Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/UserServiceCollections.png?raw=true)
 
     - **Post Collection**:
         ![Post Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/PosCollection.png?raw=true)
 
     - **Comment Collection**:
+
         ![Comment Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/CommentCollection.png?raw=true)
 
     - **Likes Collection**:
+
         ![Likes Collection](https://github.com/mo7amedgom3a/Programmers-Social-Hub/blob/main/images/LikesCollection.png?raw=true)
 - **MySQL**: Relational database for handling structured data like user profiles.
 - **Security database**:
