@@ -157,7 +157,6 @@ const Home: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        // Update the posts state with the new post data from the server response
         setPosts([
           {
             id: data.id,

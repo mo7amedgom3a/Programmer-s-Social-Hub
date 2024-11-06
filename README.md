@@ -6,7 +6,7 @@
 
 Check out our demo video and presentation slides to get a better understanding of **Programmer's Social Hub**:
 
-- [Demo Video](https://drive.google.com/file/d/1FuTM1H8x74ZXnxv6ltxz8mCKlgBOHlPo/view?usp=drive_link)
+- [Demo Video](https://drive.google.com/file/d/1opBmqzF2yvWJkeiwA9C643NJga5oIEPY/view?usp=sharing)
 - [Presentation Slides](https://docs.google.com/presentation/d/18LxqoeZ94WPqW7SCQ5xTNJu0yZcw9NrqghdhBc2cz6k/edit?usp=sharing)
 
 
