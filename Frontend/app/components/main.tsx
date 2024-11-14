@@ -1,6 +1,6 @@
 // EnhancedFullPage.tsx
 "use client";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export interface Comment {
@@ -26,9 +26,8 @@ export interface Post {
 }
 
 export function EnhancedFullPage() {
-  const router = useRouter(); // Use Next.js router
   const pathname = usePathname(); // Get current pathname
-  const [isToken, setIsToken] = useState(false);
+  const [, setIsToken] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");

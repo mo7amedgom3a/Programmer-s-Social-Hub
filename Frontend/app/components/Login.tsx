@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import Label from "../components/ui/label";
-import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { TerminalIcon, UserIcon, KeyIcon, EyeIcon, EyeOffIcon, CodeXmlIcon } from 'lucide-react';
 
 export default function LoginComponent() {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [Username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +41,11 @@ export default function LoginComponent() {
       // Redirect to home page with nameid
       window.location.href = `/home?userid=${nameid}`;
     } catch (error: any) {
-      setError(error.message); // Set the error message to display
+      if (error instanceof Error) {
+        setError(error.message); // Set the error message to display
+      } else {
+        setError('An unknown error occurred.');
+      }
     }
   };
 
@@ -61,7 +63,7 @@ export default function LoginComponent() {
         <CardHeader className="border-b border-green-500 items-center justify-center">
           <div className="flex items-center space-x-2">
             <TerminalIcon className="w-5 h-5 text-green-500" />
-            <CardTitle className="text-xl font-bold text-green-500">Programmer's Social Hub</CardTitle>
+            <CardTitle className="text-xl font-bold text-green-500">Programmer&apos;s Social Hub</CardTitle>
           </div>
           <CardDescription className="text-green-400 text-lg">
             Authenticate to access the system
@@ -70,7 +72,7 @@ export default function LoginComponent() {
         <CardContent className="mt-4 space-y-4">
           <div className="bg-white border border-green-500 p-4 rounded">
             <p className="mb-2 text-green-500 text-center">Login Date: {loginDate}</p>
-            <p className="mb-4 text-green-500">Welcome to the Programmer's Social Hub. Please log in.</p>
+            <p className="mb-4 text-green-500">Welcome to the Programmer&apos;s Social Hub. Please log in.</p>
             {error && <p className="text-red-500 text-center">{error}</p>} {/* Display error message if present */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
@@ -131,7 +133,7 @@ export default function LoginComponent() {
             </form>
           </div>
             <div className="flex items-center justify-center space-x-2">
-            <p className="text-green-500">Don't have an account? </p>
+            <p className="text-green-500">Don&apos;t have an account? </p>
             <Button
               variant="ghost"
               size="icon"

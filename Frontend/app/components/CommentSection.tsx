@@ -27,7 +27,7 @@ interface Comment {
     updatedAt: string;
 }
 
-export function CommentSection({ PostId, commentsNumber, setCommentsNumber }: { PostId: string; commentsNumber: number, setCommentsNumber: any }) {
+export function CommentSection({ PostId, commentsNumber, setCommentsNumber }: { PostId: string; commentsNumber: number, setCommentsNumber: (value: number) => void }) {
     const [commentText, setCommentText] = useState('');
     const [commentCode, setCommentCode] = useState('');
     const [showCodeEditor, setShowCodeEditor] = useState(false);
@@ -37,16 +37,15 @@ export function CommentSection({ PostId, commentsNumber, setCommentsNumber }: { 
     const [comments, setComments] = useState<Comment[]>([]);
     const [authorId, setAuthorId] = useState('');
     const token = localStorage.getItem('authToken');
-    if (!token) {
-        router.push('/login');
-    }
-    else {
-        useEffect(() => {
+    useEffect(() => {
+        if (!token) {
+            router.push('/login');
+        } else {
             const decodedToken = JSON.parse(atob(token.split('.')[1]));
             setAuthorId(decodedToken.nameid);
-        } , [token]);
-    }
-    const [showComments, setShowComments] = useState(true); // State to manage visibility of comments
+        }
+    }, [token]);
+    const [showComments] = useState(true); // State to manage visibility of comments
 
     const list_lang = [
         "c", "c#", "cpp", "java", "Assembly", "python", "javascript", "typescript",
@@ -86,7 +85,7 @@ export function CommentSection({ PostId, commentsNumber, setCommentsNumber }: { 
 
         if (commentText.trim() || commentCode.trim()) {
             const newComment = {
-                authorId: authorId, // Replace this with the actual user ID
+                authorId: authorId,
                 content: commentText,
                 language: lang,
                 code: commentCode,
@@ -107,8 +106,6 @@ export function CommentSection({ PostId, commentsNumber, setCommentsNumber }: { 
                 if (!response.ok) {
                     throw new Error('Failed to submit comment');
                 }
-
-                const savedComment = await response.json();
                 
                 setCommentsNumber(commentsNumber + 1);
                 setCommentText('');

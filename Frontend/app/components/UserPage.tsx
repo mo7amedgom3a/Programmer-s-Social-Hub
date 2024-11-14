@@ -15,11 +15,11 @@ import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { useRouter } from "next/navigation";
 
-interface Comment {
-  id: number;
-  author: string;
-  content: string;
-}
+// interface Comment {
+//   id: number;
+//   author: string;
+//   content: string;
+// }
 interface userMetadata {
   username: string;
   bio: string;
@@ -80,17 +80,16 @@ const RenderProfilePage = ({ userId }: {userId: string}) => {
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const router = useRouter();
 
-  const token = localStorage.getItem('authToken');
-  if (!token) {
-    window.location.href = '/login';
-  }
-  else {
-    useEffect (() => {
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      window.location.href = '/login';
+    } else {
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       setCurrentUserId(decodedToken.nameid);
       setIsCurrentUser(decodedToken.nameid === userId);
-    } , [token, userId]);
-  }
+    }
+  }, [userId]);
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -248,25 +247,6 @@ const RenderProfilePage = ({ userId }: {userId: string}) => {
       console.error("Error unfollowing user:", error);
     }
   };
-  const handleFollowUser = async (targetId: number) =>{
-    try {
-      const response = await fetch(`http://localhost:5172/api/User/${userId}/follow/${targetId}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem("authToken")}`,
-          'accept': '*/*'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to follow user");
-      }
-      
-    } catch (error) {
-      console.error("Error following user:", error);
-    }
-    
-  }
   const handleFollow = async () => {
     if (userId === CurrentUserId) {
       setError("You can't follow yourself.");

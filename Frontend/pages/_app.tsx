@@ -50,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Navbar />
         <main className="flex-1 overflow-auto">
           <header className="sticky top-0 z-10 bg-white border-b border-gray-200 p-4">
-            <h1 className="text-2xl font-bold"><span className="header-text">Programmer's Social Hub </span></h1>
+            <h1 className="text-2xl font-bold"><span className="header-text">Programmer&apos;s Social Hub </span></h1>
           </header>
           <Component {...pageProps} />
         </main>

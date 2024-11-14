@@ -6,7 +6,6 @@ import { Button } from "../components/ui/button";
 import { Loader2Icon } from 'lucide-react';
 import { CreatePost } from './CreatePost';
 import PostComponent from './Post';
-import { Navbar } from "./Navbar";
 
 interface userMetadata {
   username: string;
@@ -39,7 +38,7 @@ const Home: React.FC = () => {
   const [ref, inView] = useInView();
   const [newPost, setNewPost] = useState("");
   const [newPostCode, setNewPostCode] = useState("");
-  const [title, setTitle] = useState("");
+  const [, setTitle] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
 
   const list_lang = [
@@ -157,6 +156,7 @@ const Home: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+        // Update the posts state with the new post data from the server response
         setPosts([
           {
             id: data.id,

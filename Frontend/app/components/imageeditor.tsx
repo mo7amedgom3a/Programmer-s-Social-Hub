@@ -13,6 +13,7 @@ export default function ImageEditorComponent({ setImageState }: ImageEditorCompo
   const [showModal, setShowModal] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>();
   const [uploading, setUploading] = useState(false);
+  const [uploaded, setUploaded] = useState(false); // New state to track upload status
 
   // Show modal if file is selected
   const showModalHandler = () => {
@@ -40,10 +41,14 @@ export default function ImageEditorComponent({ setImageState }: ImageEditorCompo
     hideModal();
 
     // Upload to Cloudinary
-    await uploadImageToCloudinary(editedFile);
+    const cloudinaryUrl = await uploadImageToCloudinary(editedFile);
+    if (cloudinaryUrl) {
+      setImageState(cloudinaryUrl); // Set the image URL to setImageState
+      setUploaded(true); // Set uploaded status to true
+    }
   };
 
-  const uploadImageToCloudinary = async (imageFile: File) => {
+  const uploadImageToCloudinary = async (imageFile: File): Promise<string | null> => {
     setUploading(true);
 
     try {
@@ -55,13 +60,15 @@ export default function ImageEditorComponent({ setImageState }: ImageEditorCompo
 
       const data = await response.json();
       if (response.ok) {
-        setAvatarUrl(data.url); // Set the URL from Cloudinary response
-        setImageState(data.url); // Set the image URL to setImageState
+        setAvatarUrl(data.url);
+        return data.url;
       } else {
         console.error('Cloudinary upload error:', data.error);
+        return null;
       }
     } catch (error) {
       console.error('Error uploading image:', error);
+      return null;
     } finally {
       setUploading(false);
     }
@@ -79,6 +86,7 @@ export default function ImageEditorComponent({ setImageState }: ImageEditorCompo
   const setFileData = (e: React.ChangeEvent<HTMLInputElement> | null) => {
     if (e?.target?.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
+      setUploaded(false); // Reset uploaded status when a new file is selected
     }
   };
 
@@ -112,9 +120,9 @@ export default function ImageEditorComponent({ setImageState }: ImageEditorCompo
           onClick={() => handleSaveImage(file)}
           className="btn btn-secondary"
           style={{ background: "green", margin: '10px' }}
-          disabled={uploading}
+          disabled={uploading || uploaded}
         >
-          {uploading ? 'Uploading...' : 'Upload'}
+          {uploading ? 'Uploading...' : uploaded ? 'Uploaded' : 'Upload'}
         </Button>
       )}
     </>

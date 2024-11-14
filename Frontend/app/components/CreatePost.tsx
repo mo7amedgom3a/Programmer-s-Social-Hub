@@ -50,7 +50,7 @@ export function CreatePost({ newPost, newPostCode, setNewPost, setNewPostCode, o
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
 
-  const handle_lang = (e: any) => {
+  const handle_lang = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLang(e.target.value);
   };
 

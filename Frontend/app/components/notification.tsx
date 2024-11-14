@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import * as signalR from "@microsoft/signalr";
-import PostComponent from "./Post"; // Ensure you have this component
-import Modal from './ui/modal'; // Import the Modal component
+import PostComponent from "./Post";
+import Modal from './ui/modal';
 
 interface UserMetadata {
   username: string;
@@ -45,6 +45,15 @@ const RenderNotificationsPage = ({ userId }: { userId: string }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      console.error("No auth token found");
+      return;
+    }
+
+    const decodedToken: any = JSON.parse(atob(token.split('.')[1]));
+    const tokenUserId = decodedToken.nameid;
+
     const connection = new signalR.HubConnectionBuilder()
       .withUrl("http://localhost:5068/hubs/notification")
       .withAutomaticReconnect()
@@ -59,17 +68,20 @@ const RenderNotificationsPage = ({ userId }: { userId: string }) => {
           .then((response) => response.json())
           .then((data: Notification[]) => {
             console.log("Initial notifications:", data);
-            setNotifications(data);
+            const filteredNotifications = data.filter(notification => notification.senderUserId !== tokenUserId);
+            setNotifications(filteredNotifications);
           })
           .catch((error) =>
             console.error("Error fetching initial notifications:", error)
           );
 
         connection.on("NotificationsReceived", (notification: Notification) => {
-          setNotifications((prevNotifications) => [
-            notification,
-            ...prevNotifications,
-          ]);
+          if (notification.senderUserId !== tokenUserId) {
+            setNotifications((prevNotifications) => [
+              notification,
+              ...prevNotifications,
+            ]);
+          }
         });
       })
       .catch((error) => console.error("Error connecting to SignalR:", error));
@@ -82,7 +94,7 @@ const RenderNotificationsPage = ({ userId }: { userId: string }) => {
   const handlePostClick = (postId: string) => {
     fetch(`http://localhost:5108/api/Post/${postId}`, {
       headers: {
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Replace with the actual token
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
     })
       .then(async (response) => {
@@ -150,10 +162,10 @@ const RenderNotificationsPage = ({ userId }: { userId: string }) => {
       <div className="space-y-4">
         {notifications.map((notification) => (
         <div key={notification.id} className="flex items-center space-x-4">
-          <Avatar>
-            <img src={notification.imageUrl} alt="Sender's avatar" />
+            <Avatar>
+            <AvatarImage src={notification.imageUrl} alt="Sender's avatar" />
             <AvatarFallback>{notification.senderUserId[0]}</AvatarFallback>
-          </Avatar>
+            </Avatar>
           <div>
           <p>{renderMessageWithButton(notification.message)}</p>
           <p className="text-sm text-gray-500">

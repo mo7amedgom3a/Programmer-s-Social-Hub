@@ -1,9 +1,7 @@
-import { useRouter } from "next/router";
 import React from "react";
-import RenderSavedPostsPage from "../../app/components/SavePage"; // Assuming RenderSavedPostsPage is in the components folder
+import RenderSavedPostsPage from "../../app/components/SavePage";
 import '../../app/globals.css';
 const SavedPostsPage = () => {
-  const router = useRouter();
   const token = localStorage.getItem("authToken");
   if (!token) {
     return <div>Error: No auth token found</div>;

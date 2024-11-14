@@ -1,26 +1,16 @@
 'use client';
-import React, { useState, FormEvent, ChangeEvent, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
 import dynamic from 'next/dynamic';
 import { HeartIcon, MessageCircleIcon, BookmarkIcon } from "lucide-react";
 import DOMPurify from 'isomorphic-dompurify';
 import Popup from "reactjs-popup";
 import 'reactjs-popup/dist/index.css';
-import RenderProfilePage from "./UserPage";
 import { useRouter } from "next/navigation";
 import { CommentSection } from "./CommentSection";
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
-
-interface Comment {
-  id: number;
-  author: string;
-  content: string;
-  code: string;
-  language: string;
-}
 interface userMetadata {
   userId : string;
   bio : string;

@@ -40,7 +40,8 @@ export function RegisterComponent() {
   const [imageState, setImageState] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showPopup, setShowPopup] = useState(false)
- 
+  const [errors, setErrors] = useState<string[]>([])
+
   useEffect(() => {
     setFormData(prevData => ({ ...prevData, imageUrl: imageState }))
   }, [imageState])
@@ -98,12 +99,18 @@ export function RegisterComponent() {
     setFormData(prevData => ({ ...prevData, [name]: value }))
   }
 
-  const handleMultiSelectChange = (selectedOptions: any[], name: string) => {
+  const handleMultiSelectChange = (selectedOptions: { label: string, value: string }[], name: string) => {
     setFormData(prevData => ({ ...prevData, [name]: selectedOptions }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    // Prevent auto-submit if any required field is empty
+    if (!formData.username || !formData.password || !formData.name || !formData.gender || !formData.bio || !formData.age || formData.skills.length === 0 || formData.topicsOfInterest.length === 0 || !formData.imageUrl) {
+      alert('Please fill in all required fields.')
+      return
+    }
 
     const payload = {
       ...formData,
@@ -123,8 +130,6 @@ export function RegisterComponent() {
       })
 
       if (response.ok) {
-        const data = await response.text()
-        // Clear the form inputs
         setFormData({
           username: '',
           password: '',
@@ -142,6 +147,9 @@ export function RegisterComponent() {
         setTimeout(() => {
           window.location.href = '/login'
         }, 2000) // Adjust the delay as needed
+      } else if (response.status >= 400 && response.status < 500) {
+        const errorData = await response.json()
+        setErrors(errorData.errors)
       } else {
         throw new Error('Registration failed')
       }
@@ -180,7 +188,7 @@ export function RegisterComponent() {
         <CardContent className="mt-4 space-y-4">
           <div className="bg-white border border-green-500 p-4 rounded">
           <p className="mb-2 text-green-500 text-center">register Date: {RegisterDate}</p>
-            <p className="mb-4 text-green-500">Welcome to the Programmer's Social Hub. Please enter your details to register.</p>
+            <p className="mb-4 text-green-500">Welcome to the Programmer&#39;s Social Hub. Please enter your details to register.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
                 <Label htmlFor="username" className="text-black-400 flex items-center">
@@ -192,6 +200,7 @@ export function RegisterComponent() {
                   <Input
                     id="username"
                     name="username"
+                    type='email'
                     value={formData.username}
                     onChange={handleInputChange}
                     placeholder="Enter username"
@@ -333,7 +342,16 @@ export function RegisterComponent() {
                   <ImageEditorComponent setImageState={setImageState} />
                   </div>
               </div>
-              <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-black">
+              {errors.length > 0 && (
+                <div className="text-red-500">
+                  <ul>
+                    {errors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <Button type="submit" className="w-full bg-green-500 text-white hover:bg-green-600">
                 Register
               </Button>
             </form>

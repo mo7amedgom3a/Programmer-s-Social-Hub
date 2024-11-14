@@ -8,7 +8,7 @@ import { Button } from "./ui/button"
 import { MultiSelect } from "react-multi-select-component"
 import ImageEditorComponent from "./imageeditor"
 import Label from "./ui/label"
-import { EyeIcon, UserIcon, InfoIcon, CodeIcon, BookOpenIcon, ImageIcon } from 'lucide-react'
+import { UserIcon, InfoIcon, CodeIcon, BookOpenIcon, ImageIcon } from 'lucide-react'
 
 interface User {
   userId: string;

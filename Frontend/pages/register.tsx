@@ -1,8 +1,7 @@
 "use client"
 import React from "react";
 import '../app/globals.css';
-import { RegisterComponent } from "@/app/components/Register";
-import exp from "constants";
+import { RegisterComponent } from "@/app/components/Register";;
 
 const Register = () => {
     return (
